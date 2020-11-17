@@ -1,17 +1,18 @@
 package com.geraa1985.mykotlinmvpapp.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.geraa1985.mykotlinmvpapp.databinding.ActivityMainBinding
 import com.geraa1985.mykotlinmvpapp.model.Model
 import com.geraa1985.mykotlinmvpapp.presenter.Presenter
 import com.geraa1985.mykotlinmvpapp.view.View
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 
 private lateinit var binding: ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), View, android.view.View.OnClickListener {
+class MainActivity : MvpAppCompatActivity(), View, android.view.View.OnClickListener {
 
-    private val presenter = Presenter(Model(), this)
+    private val presenter by moxyPresenter { Presenter(Model()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,6 +1,10 @@
 package com.geraa1985.mykotlinmvpapp.view
 
-interface View {
+import moxy.MvpView
+import moxy.viewstate.strategy.alias.AddToEndSingle
+
+@AddToEndSingle
+interface View : MvpView {
 
     fun setTextForButton1(value: String)
 
