@@ -3,4 +3,5 @@
     <string name="counter_1">Counter 1</string>
     <string name="counter_2">Counter 2</string>
     <string name="counter_3">Counter 3</string>
+    <string name="click_on_me">click on me</string>
 </resources>
