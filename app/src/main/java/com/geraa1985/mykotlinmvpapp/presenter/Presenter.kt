@@ -1,24 +1,43 @@
 package com.geraa1985.mykotlinmvpapp.presenter
 
-import com.geraa1985.mykotlinmvpapp.model.Model
+import com.geraa1985.mykotlinmvpapp.model.GithubUser
+import com.geraa1985.mykotlinmvpapp.model.GithubUsersRepo
+import com.geraa1985.mykotlinmvpapp.view.IUserItemView
 import com.geraa1985.mykotlinmvpapp.view.View
 import moxy.MvpPresenter
 
-class Presenter(private val model: Model) : MvpPresenter<View>() {
+class Presenter(private val usersRepo: GithubUsersRepo): MvpPresenter<View>() {
 
-    fun clickOnButton1() {
-        model.counters[0]++
-        viewState.setTextForButton1(model.counters[0].toString())
+    class UsersListPresenter : IUserListPresenter {
+
+        val users = mutableListOf<GithubUser>()
+
+        override var itemClickListener: ((IUserItemView) -> Unit)? = null
+
+        override fun getCount() = users.size
+
+        override fun bindView(view: IUserItemView) {
+            val user = users[view.pos]
+            view.setLogin(user.login)
+        }
     }
 
-    fun clickOnButton2() {
-        model.counters[1]++
-        viewState.setTextForButton2(model.counters[1].toString())
+    val usersListPresenter = UsersListPresenter()
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        viewState.init()
+        loadData()
+
+        usersListPresenter.itemClickListener = {
+            //TODO: переход на экран пользователя
+
+        }
     }
 
-    fun clickOnButton3() {
-        model.counters[2]++
-        viewState.setTextForButton3(model.counters[2].toString())
+    private fun loadData() {
+        val users = usersRepo.getUsers()
+        usersListPresenter.users.addAll(users)
+        viewState.updateList()
     }
-
 }

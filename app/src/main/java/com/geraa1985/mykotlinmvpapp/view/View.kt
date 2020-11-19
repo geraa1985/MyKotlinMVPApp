@@ -6,10 +6,8 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 @AddToEndSingle
 interface View : MvpView {
 
-    fun setTextForButton1(value: String)
+    fun init()
 
-    fun setTextForButton2(value: String)
-
-    fun setTextForButton3(value: String)
+    fun updateList()
 
 }
