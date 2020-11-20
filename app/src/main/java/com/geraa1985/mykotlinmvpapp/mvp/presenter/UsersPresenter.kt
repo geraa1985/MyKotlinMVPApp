@@ -1,12 +1,15 @@
-package com.geraa1985.mykotlinmvpapp.presenter
+package com.geraa1985.mykotlinmvpapp.mvp.presenter
 
-import com.geraa1985.mykotlinmvpapp.model.GithubUser
-import com.geraa1985.mykotlinmvpapp.model.GithubUsersRepo
-import com.geraa1985.mykotlinmvpapp.view.IUserItemView
-import com.geraa1985.mykotlinmvpapp.view.View
+import com.geraa1985.mykotlinmvpapp.mvp.model.entity.GithubUser
+import com.geraa1985.mykotlinmvpapp.mvp.model.repository.GithubUsersRepo
+import com.geraa1985.mykotlinmvpapp.mvp.presenter.list.user.IUserListPresenter
+import com.geraa1985.mykotlinmvpapp.mvp.view.IUsersView
+import com.geraa1985.mykotlinmvpapp.mvp.view.list.userItem.IUserItemView
+import com.geraa1985.mykotlinmvpapp.navigation.Screens
 import moxy.MvpPresenter
+import ru.terrakok.cicerone.Router
 
-class Presenter(private val usersRepo: GithubUsersRepo): MvpPresenter<View>() {
+class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router: Router): MvpPresenter<IUsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
 
@@ -30,8 +33,7 @@ class Presenter(private val usersRepo: GithubUsersRepo): MvpPresenter<View>() {
         loadData()
 
         usersListPresenter.itemClickListener = {
-            //TODO: переход на экран пользователя
-
+            router.navigateTo(Screens.userScreen(usersListPresenter.users[it.pos]))
         }
     }
 
@@ -40,4 +42,10 @@ class Presenter(private val usersRepo: GithubUsersRepo): MvpPresenter<View>() {
         usersListPresenter.users.addAll(users)
         viewState.updateList()
     }
+
+    fun backPressed(): Boolean {
+        router.exit()
+        return true
+    }
+
 }

@@ -1,11 +1,11 @@
-package com.geraa1985.mykotlinmvpapp.ui
+package com.geraa1985.mykotlinmvpapp.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.geraa1985.mykotlinmvpapp.databinding.ItemRvBinding
-import com.geraa1985.mykotlinmvpapp.presenter.IUserListPresenter
-import com.geraa1985.mykotlinmvpapp.view.IUserItemView
+import com.geraa1985.mykotlinmvpapp.mvp.presenter.list.user.IUserListPresenter
+import com.geraa1985.mykotlinmvpapp.mvp.view.list.userItem.IUserItemView
 
 class UsersRVAdapter(private val presenter: IUserListPresenter) :
     RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
@@ -26,7 +26,8 @@ class UsersRVAdapter(private val presenter: IUserListPresenter) :
         presenter.bindView(holder)
     }
 
-    class ViewHolder(private val binding: ItemRvBinding) : RecyclerView.ViewHolder(binding.root), IUserItemView {
+    class ViewHolder(private val binding: ItemRvBinding) : RecyclerView.ViewHolder(binding.root),
+        IUserItemView {
 
         override var pos = 0
 

@@ -1,4 +1,4 @@
-package com.geraa1985.mykotlinmvpapp.model
+package com.geraa1985.mykotlinmvpapp.mvp.model.entity
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

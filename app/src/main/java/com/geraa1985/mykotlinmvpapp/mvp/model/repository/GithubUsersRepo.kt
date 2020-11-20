@@ -1,4 +1,6 @@
-package com.geraa1985.mykotlinmvpapp.model
+package com.geraa1985.mykotlinmvpapp.mvp.model.repository
+
+import com.geraa1985.mykotlinmvpapp.mvp.model.entity.GithubUser
 
 class GithubUsersRepo {
 
