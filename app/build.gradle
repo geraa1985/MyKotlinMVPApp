@@ -2,6 +2,11 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+}
+
+androidExtensions {
+    experimental = true
 }
 
 android {
@@ -52,4 +57,7 @@ dependencies {
     kapt "com.github.moxy-community:moxy-compiler:2.1.2"
     implementation "com.github.moxy-community:moxy-ktx:2.1.2"
     implementation "com.github.moxy-community:moxy-androidx:2.1.2"
+
+    //Cicerone
+    implementation 'ru.terrakok.cicerone:cicerone:5.1.1'
 }
