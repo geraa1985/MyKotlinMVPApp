@@ -9,8 +9,13 @@ class UserPresenter(private val user: GithubUser?, private val router: Router): 
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+
+        showLogin()
+    }
+
+    private fun showLogin() {
         user?.let {
-            viewState.init(it)
+            viewState.showLogin(it.login)
         }
     }
 

@@ -36,13 +36,13 @@ class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentUserBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun init(user: GithubUser) {
-        binding.userLogin.text = user.login
+    override fun showLogin(login: String) {
+        binding.userLogin.text = login
     }
 
     override fun backPressed(): Boolean {
