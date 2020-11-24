@@ -6,10 +6,17 @@ import com.geraa1985.mykotlinmvpapp.mvp.presenter.list.user.IUserListPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IUsersView
 import com.geraa1985.mykotlinmvpapp.mvp.view.list.userItem.IUserItemView
 import com.geraa1985.mykotlinmvpapp.navigation.Screens
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers.io
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 
-class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router: Router): MvpPresenter<IUsersView>() {
+class UsersPresenter(
+    private val uiScheduler: Scheduler,
+    private val usersRepo: GithubUsersRepo,
+    private val router: Router) :
+    MvpPresenter<IUsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
 
@@ -26,6 +33,7 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
     }
 
     val usersListPresenter = UsersListPresenter()
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -38,14 +46,26 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
     }
 
     private fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+        val disposable1 = usersRepo.getUsers()
+            .subscribeOn(io())
+            .observeOn(uiScheduler)
+            .subscribe({
+                usersListPresenter.users.add(it)
+            }, {
+                it.message?.let { errorMessage -> viewState.showError(errorMessage) }
+            }, {
+                viewState.updateList()
+            })
+        compositeDisposable.addAll(disposable1)
     }
 
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    fun fragmentDestroyed() {
+        compositeDisposable.dispose()
     }
 
 }
