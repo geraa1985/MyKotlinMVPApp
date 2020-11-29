@@ -6,10 +6,17 @@ import com.geraa1985.mykotlinmvpapp.mvp.presenter.list.user.IUserListPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IUsersView
 import com.geraa1985.mykotlinmvpapp.mvp.view.list.userItem.IUserItemView
 import com.geraa1985.mykotlinmvpapp.navigation.Screens
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 
-class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router: Router): MvpPresenter<IUsersView>() {
+class UsersPresenter(
+    private val uiScheduler: Scheduler,
+    private val usersRepo: GithubUsersRepo,
+    private val router: Router
+) :
+    MvpPresenter<IUsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
 
@@ -26,6 +33,7 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
     }
 
     val usersListPresenter = UsersListPresenter()
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -37,15 +45,32 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
         }
     }
 
+    fun fragmentStarted() {
+    }
+
     private fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+        usersListPresenter.users.clear()
+        val disposable1 = usersRepo.getUsers()
+            .observeOn(uiScheduler)
+            .subscribe({
+                usersListPresenter.users.addAll(it)
+                viewState.updateList()
+            }, { error ->
+                error.message?.let {
+                    viewState.showError(it)
+                }
+            })
+        compositeDisposable.add(disposable1)
     }
 
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        compositeDisposable.dispose()
+        super.onDestroy()
     }
 
 }

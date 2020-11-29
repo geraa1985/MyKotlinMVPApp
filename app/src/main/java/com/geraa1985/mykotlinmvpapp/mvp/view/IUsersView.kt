@@ -10,4 +10,6 @@ interface IUsersView : MvpView {
 
     fun updateList()
 
+    fun showError(message: String)
+
 }
