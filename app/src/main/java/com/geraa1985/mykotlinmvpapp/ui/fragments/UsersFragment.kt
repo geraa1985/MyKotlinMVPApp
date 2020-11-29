@@ -42,6 +42,11 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        presenter.fragmentStarted()
+    }
+
     override fun init() {
         binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
         adapter = UsersRVAdapter(presenter.usersListPresenter)
@@ -61,10 +66,5 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
 
     override fun backPressed(): Boolean {
         return presenter.backPressed()
-    }
-
-    override fun onDestroy() {
-        presenter.fragmentDestroyed()
-        super.onDestroy()
     }
 }

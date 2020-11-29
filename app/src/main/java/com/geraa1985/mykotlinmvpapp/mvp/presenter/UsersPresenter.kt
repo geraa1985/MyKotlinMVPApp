@@ -8,14 +8,14 @@ import com.geraa1985.mykotlinmvpapp.mvp.view.list.userItem.IUserItemView
 import com.geraa1985.mykotlinmvpapp.navigation.Screens
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers.io
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 
 class UsersPresenter(
     private val uiScheduler: Scheduler,
     private val usersRepo: GithubUsersRepo,
-    private val router: Router) :
+    private val router: Router
+) :
     MvpPresenter<IUsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
@@ -45,18 +45,22 @@ class UsersPresenter(
         }
     }
 
+    fun fragmentStarted() {
+    }
+
     private fun loadData() {
+        usersListPresenter.users.clear()
         val disposable1 = usersRepo.getUsers()
-            .subscribeOn(io())
             .observeOn(uiScheduler)
             .subscribe({
-                usersListPresenter.users.add(it)
-            }, {
-                it.message?.let { errorMessage -> viewState.showError(errorMessage) }
-            }, {
+                usersListPresenter.users.addAll(it)
                 viewState.updateList()
+            }, { error ->
+                error.message?.let {
+                    viewState.showError(it)
+                }
             })
-        compositeDisposable.addAll(disposable1)
+        compositeDisposable.add(disposable1)
     }
 
     fun backPressed(): Boolean {
@@ -64,8 +68,9 @@ class UsersPresenter(
         return true
     }
 
-    fun fragmentDestroyed() {
+    override fun onDestroy() {
         compositeDisposable.dispose()
+        super.onDestroy()
     }
 
 }

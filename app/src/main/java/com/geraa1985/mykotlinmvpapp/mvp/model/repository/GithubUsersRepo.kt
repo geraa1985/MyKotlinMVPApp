@@ -1,13 +1,12 @@
 package com.geraa1985.mykotlinmvpapp.mvp.model.repository
 
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.GithubUser
-import io.reactivex.rxjava3.annotations.SchedulerSupport.IO
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class GithubUsersRepo {
 
-    private val repository = listOf(
+    private val users = listOf(
         GithubUser("login_1"),
         GithubUser("login_2"),
         GithubUser("login_3"),
@@ -15,5 +14,7 @@ class GithubUsersRepo {
         GithubUser("login_5")
     )
 
-    fun getUsers(): Observable<GithubUser> = Observable.fromIterable(repository)
+    fun getUsers(): Single<List<GithubUser>> = Single.create<List<GithubUser>> {
+        it.onSuccess(users)
+    }.subscribeOn(Schedulers.io())
 }
