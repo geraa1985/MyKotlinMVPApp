@@ -6,20 +6,20 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.geraa1985.mykotlinmvpapp.R
-import com.geraa1985.mykotlinmvpapp.databinding.ItemRvBinding
+import com.geraa1985.mykotlinmvpapp.databinding.ItemRvUsersBinding
 import com.geraa1985.mykotlinmvpapp.mvp.model.ILoadImage
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.list.user.IUserListPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.list.userItem.IUserItemView
 
-class UsersRVAdapter(
+class UserRVAdapter(
     private val presenter: IUserListPresenter,
     private val loadImg: ILoadImage<ImageView>
 ) :
-    RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
+    RecyclerView.Adapter<UserRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemRvBinding.inflate(inflater, parent, false)
+        val binding = ItemRvUsersBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -31,10 +31,10 @@ class UsersRVAdapter(
             presenter.itemClickListener?.invoke(holder)
         }
         presenter.bindView(holder)
-        holder.itemView.animation = AnimationUtils.loadAnimation(holder.getItem().context, R.anim.rv_anims)
+        holder.itemView.animation = AnimationUtils.loadAnimation(holder.getItem().context, R.anim.rv_users_anims)
     }
 
-    inner class ViewHolder(private val binding: ItemRvBinding) : RecyclerView.ViewHolder(binding.root),
+    inner class ViewHolder(private val binding: ItemRvUsersBinding) : RecyclerView.ViewHolder(binding.root),
         IUserItemView {
 
         override var pos = 0

@@ -38,7 +38,7 @@ class UsersPresenter(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.init()
+        viewState.initRvUsers()
         loadData()
 
         usersListPresenter.itemClickListener = {
@@ -46,16 +46,12 @@ class UsersPresenter(
         }
     }
 
-    fun fragmentStarted() {
-    }
-
     private fun loadData() {
-        usersListPresenter.users.clear()
         val disposable1 = usersRepo.getUsers()
             .observeOn(uiScheduler)
             .subscribe({
                 usersListPresenter.users.addAll(it)
-                viewState.updateList()
+                viewState.updateUsersList()
             }, { error ->
                 error.message?.let {
                     viewState.showError(it)

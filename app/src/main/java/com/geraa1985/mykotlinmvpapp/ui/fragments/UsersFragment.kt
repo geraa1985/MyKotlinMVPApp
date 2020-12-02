@@ -14,7 +14,7 @@ import com.geraa1985.mykotlinmvpapp.mvp.model.repository.GithubUsersRepo
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.UsersPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IUsersView
 import com.geraa1985.mykotlinmvpapp.ui.BackButtonListener
-import com.geraa1985.mykotlinmvpapp.ui.adapters.UsersRVAdapter
+import com.geraa1985.mykotlinmvpapp.ui.adapters.UserRVAdapter
 import com.geraa1985.mykotlinmvpapp.ui.image.GlideImgLoader
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
@@ -31,7 +31,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
         )
     }
 
-    private var adapter: UsersRVAdapter? = null
+    private var adapter: UserRVAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,18 +42,13 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.fragmentStarted()
-    }
-
-    override fun init() {
+    override fun initRvUsers() {
         binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UsersRVAdapter(presenter.usersListPresenter, GlideImgLoader())
+        adapter = UserRVAdapter(presenter.usersListPresenter, GlideImgLoader())
         binding.rvUsers.adapter = adapter
     }
 
-    override fun updateList() {
+    override fun updateUsersList() {
         adapter?.notifyDataSetChanged()
     }
 
