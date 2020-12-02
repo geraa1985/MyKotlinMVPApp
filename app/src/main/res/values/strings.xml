@@ -5,4 +5,10 @@
     <string name="counter_3">Counter 3</string>
     <string name="click_on_me">click on me</string>
     <string name="avatar">avatar</string>
+    <string name="language">Language:</string>
+    <string name="created_at">Created at:</string>
+    <string name="updated_at">Updated at:</string>
+    <string name="forks">Forks:</string>
+    <string name="watchers">Watchers:</string>
+    <string name="http_link">Http link:</string>
 </resources>

@@ -6,6 +6,7 @@ import com.geraa1985.mykotlinmvpapp.mvp.model.repository.IUsersRepo
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.list.repo.IRepoListPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IUserView
 import com.geraa1985.mykotlinmvpapp.mvp.view.list.repoItem.IRepoItemView
+import com.geraa1985.mykotlinmvpapp.navigation.Screens
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
@@ -42,6 +43,10 @@ class UserPresenter(
         showLogin()
         showAvatar()
         loadData()
+
+        reposListPresenter.itemClickListener = {
+            router.navigateTo(Screens.repoScreen(reposListPresenter.repos[it.pos]))
+        }
     }
 
     private fun showLogin() {
@@ -57,18 +62,19 @@ class UserPresenter(
     }
 
     private fun loadData() {
-        val disposable1 = user?.let { user ->
-            usersRepo.getRepos(user.reposUrl)
-            .observeOn(uiScheduler)
-            .subscribe({
-                reposListPresenter.repos.addAll(it)
-                viewState.updateReposList()
-            }, { error ->
-                error.message?.let {
-                    viewState.showError(it)
-                }
-            })}
-        compositeDisposable.add(disposable1)
+        user?.let {
+            val disposable1 = usersRepo.getRepos(user.reposUrl)
+                .observeOn(uiScheduler)
+                .subscribe({
+                    reposListPresenter.repos.addAll(it)
+                    viewState.updateReposList()
+                }, { error ->
+                    error.message?.let {
+                        viewState.showError(it)
+                    }
+                })
+            compositeDisposable.add(disposable1)
+        }
     }
 
 
