@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.request.RequestOptions
 import com.geraa1985.mykotlinmvpapp.R
 import com.geraa1985.mykotlinmvpapp.databinding.ItemRvUsersBinding
 import com.geraa1985.mykotlinmvpapp.mvp.model.ILoadImage
@@ -13,7 +14,7 @@ import com.geraa1985.mykotlinmvpapp.mvp.view.list.userItem.IUserItemView
 
 class UserRVAdapter(
     private val presenter: IUserListPresenter,
-    private val loadImg: ILoadImage<ImageView>
+    private val loadImg: ILoadImage<ImageView, RequestOptions>
 ) :
     RecyclerView.Adapter<UserRVAdapter.ViewHolder>() {
 
@@ -44,7 +45,7 @@ class UserRVAdapter(
         }
 
         override fun setAvatar(url: String?) {
-            url?.let { loadImg.loadInto(it, binding.ava) }
+            url?.let { loadImg.loadInto(it, binding.ava, RequestOptions().circleCrop()) }
         }
 
         fun getItem() = binding.root

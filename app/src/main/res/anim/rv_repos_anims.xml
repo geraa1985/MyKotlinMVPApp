@@ -3,20 +3,20 @@
     android:interpolator="@android:anim/overshoot_interpolator">
 
     <translate
-        android:fromXDelta="100%"
+        android:fromXDelta="200%"
         android:toYDelta="0%"
-        android:duration="2500" />
+        android:duration="500"
+        />
 
-    <rotate
-        android:fromDegrees="90"
-        android:toDegrees="0"
-        android:pivotX="100%"
-        android:pivotY="100%"
-        android:duration="2500" />
+    <scale
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:fromXScale="0"
+        android:fromYScale="0"
+        android:toXScale="1"
+        android:toYScale="1"
+        android:duration="500"
 
-    <alpha
-        android:fromAlpha="0.0"
-        android:toAlpha="1.0"
-        android:duration="5500" />
+        />
 
 </set>

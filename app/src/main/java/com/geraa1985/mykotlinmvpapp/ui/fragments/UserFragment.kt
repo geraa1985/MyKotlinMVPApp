@@ -51,11 +51,11 @@ class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
     }
 
     override fun showLogin(login: String) {
-        binding.userLogin.text = login
+        binding.toolbar.title = login
     }
 
     override fun showAvatar(url: String) {
-        GlideImgLoader().loadInto(url, binding.avatar)
+        GlideImgLoader().loadInto(url, binding.avatar, null)
     }
 
     override fun initRvRepos() {
