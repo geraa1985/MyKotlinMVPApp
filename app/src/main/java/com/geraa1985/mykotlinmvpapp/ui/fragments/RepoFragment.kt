@@ -1,6 +1,8 @@
 package com.geraa1985.mykotlinmvpapp.ui.fragments
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +44,9 @@ class RepoFragment : MvpAppCompatFragment(), IRepoView, BackButtonListener {
     }
 
     override fun showName(name: String) {
-        binding.repoName.text = name
+        val content = SpannableString(name)
+        content.setSpan(UnderlineSpan(), 0 , content.length, 0)
+        binding.repoName.text = content
     }
 
     override fun showLang(lang: String) {
