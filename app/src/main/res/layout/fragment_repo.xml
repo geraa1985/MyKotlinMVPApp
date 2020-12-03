@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#F54C4C4A"
+    android:background="#4C4C4C"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -17,7 +17,7 @@
         android:textColor="#E53935"
         android:textSize="46sp"
         android:elevation="5dp"
-        android:background="#4C4C4C"
+        android:background="#515151"
         android:textStyle="italic"
         tools:text="Repository name" />
 
