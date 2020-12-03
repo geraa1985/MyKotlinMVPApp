@@ -7,7 +7,7 @@
     android:layout_marginEnd="15dp"
     android:layout_marginTop="15dp"
     android:background="@drawable/rv_repo_style"
-    android:elevation="100dp"
+
     android:gravity="center_vertical"
     android:orientation="horizontal"
     tools:ignore="UseCompoundDrawables">
