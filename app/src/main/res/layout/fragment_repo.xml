@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4C4C4C"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/repo_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:textColor="#E53935"
+        android:textSize="46sp"
+        android:elevation="5dp"
+        android:background="#515151"
+        android:textStyle="italic"
+        tools:text="Repository name" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/language"
+                android:textColor="#FDD835"
+                android:textSize="26sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/repo_lang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:textColor="#00ACC1"
+                android:textSize="36sp"
+                android:textStyle="italic"
+                tools:text="Kotlin" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/created_at"
+                android:textColor="#FDD835"
+                android:textSize="26sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/repo_created"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:textColor="#00ACC1"
+                android:textSize="36sp"
+                android:textStyle="italic"
+                tools:text="2014-11-20" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/updated_at"
+                android:textColor="#FDD835"
+                android:textSize="26sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/repo_updated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:textColor="#00ACC1"
+                android:textSize="36sp"
+                android:textStyle="italic"
+                tools:text="2020-09-15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/forks"
+                android:textColor="#FDD835"
+                android:textSize="26sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/repo_forks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:textColor="#00ACC1"
+                android:textSize="36sp"
+                android:textStyle="italic"
+                tools:text="7" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/watchers"
+                android:textColor="#FDD835"
+                android:textSize="26sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/repo_watchers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:textColor="#00ACC1"
+                android:textSize="36sp"
+                android:textStyle="italic"
+                tools:text="3" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/http_link"
+                android:textColor="#FDD835"
+                android:textSize="26sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/repo_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:textColor="#00ACC1"
+                android:textSize="36sp"
+                android:textStyle="italic"
+                tools:text="https://github.com/mojombo/30daysoflaptops.github.io" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
