@@ -1,7 +1,6 @@
 package com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.dao
 
 import androidx.room.*
-import com.geraa1985.mykotlinmvpapp.mvp.model.entity.GithubUser
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.entities.RoomUserRepo
 
 @Dao
@@ -26,18 +25,18 @@ interface IRepoDao {
     fun update(vararg repos: RoomUserRepo)
 
     @Delete
-    fun delete(repo: GithubUser)
+    fun delete(repo: RoomUserRepo)
 
     @Delete
-    fun delete(repos: List<GithubUser>)
+    fun delete(repos: List<RoomUserRepo>)
 
     @Delete
-    fun delete(vararg repos: GithubUser)
+    fun delete(vararg repos: RoomUserRepo)
 
     @Query("SELECT * FROM RoomUserRepo")
-    fun getAll(): List<GithubUser>
+    fun getAll(): List<RoomUserRepo>
 
     @Query("SELECT * FROM RoomUserRepo WHERE uid = :uid")
-    fun getRepos(uid: String): List<GithubUser>
+    fun getRepos(uid: String): List<RoomUserRepo>
 
 }

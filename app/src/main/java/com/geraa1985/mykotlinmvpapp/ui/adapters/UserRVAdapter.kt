@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import com.geraa1985.mykotlinmvpapp.R
 import com.geraa1985.mykotlinmvpapp.databinding.ItemRvUsersBinding
-import com.geraa1985.mykotlinmvpapp.mvp.model.ILoadImage
+import com.geraa1985.mykotlinmvpapp.mvp.model.repository.ILoadImage
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.list.user.IUserListPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.list.userItem.IUserItemView
 

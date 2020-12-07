@@ -3,7 +3,7 @@ package com.geraa1985.mykotlinmvpapp.ui.image
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.geraa1985.mykotlinmvpapp.mvp.model.ILoadImage
+import com.geraa1985.mykotlinmvpapp.mvp.model.repository.ILoadImage
 
 class GlideImgLoader: ILoadImage<ImageView, RequestOptions> {
 

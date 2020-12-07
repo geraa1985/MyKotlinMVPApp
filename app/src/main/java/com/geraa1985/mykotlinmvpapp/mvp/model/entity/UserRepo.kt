@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class UserRepo(
+    @Expose val id: String,
     @Expose val name: String,
     @Expose val language: String?,
     @Expose val createdAt: String?,

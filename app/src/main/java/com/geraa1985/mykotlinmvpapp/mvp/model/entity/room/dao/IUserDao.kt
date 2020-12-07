@@ -1,7 +1,6 @@
 package com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.dao
 
 import androidx.room.*
-import com.geraa1985.mykotlinmvpapp.mvp.model.entity.GithubUser
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.entities.RoomGithubUser
 
 @Dao
@@ -26,18 +25,18 @@ interface IUserDao {
     fun update(vararg users: RoomGithubUser)
 
     @Delete
-    fun delete(user: GithubUser)
+    fun delete(user: RoomGithubUser)
 
     @Delete
-    fun delete(users: List<GithubUser>)
+    fun delete(users: List<RoomGithubUser>)
 
     @Delete
-    fun delete(vararg users: GithubUser)
+    fun delete(vararg users: RoomGithubUser)
 
     @Query("SELECT * FROM RoomGithubUser")
-    fun getAll(): List<GithubUser>
+    fun getAll(): List<RoomGithubUser>
 
     @Query("SELECT * FROM RoomGithubUser WHERE login = :login LIMIT 1")
-    fun getUser(login: String): List<GithubUser>
+    fun getUser(login: String): RoomGithubUser?
 
 }

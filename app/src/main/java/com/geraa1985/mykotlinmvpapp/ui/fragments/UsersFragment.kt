@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.geraa1985.mykotlinmvpapp.MyApp
 import com.geraa1985.mykotlinmvpapp.databinding.FragmentUsersBinding
 import com.geraa1985.mykotlinmvpapp.mvp.model.api.ApiHolder
+import com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.cache.UsersCache
 import com.geraa1985.mykotlinmvpapp.mvp.model.repository.GithubUsersRepo
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.UsersPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IUsersView
 import com.geraa1985.mykotlinmvpapp.ui.BackButtonListener
 import com.geraa1985.mykotlinmvpapp.ui.adapters.UserRVAdapter
 import com.geraa1985.mykotlinmvpapp.ui.image.GlideImgLoader
+import com.geraa1985.mykotlinmvpapp.ui.networkstatus.NetworkStatus
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -26,7 +28,11 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
 
     private val presenter by moxyPresenter {
         UsersPresenter(AndroidSchedulers.mainThread(),
-            GithubUsersRepo(ApiHolder.api),
+            GithubUsersRepo(
+                ApiHolder.api,
+                NetworkStatus(),
+                UsersCache()
+            ),
             MyApp.instance.router
         )
     }
