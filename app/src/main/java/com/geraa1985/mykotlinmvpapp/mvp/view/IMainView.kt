@@ -4,6 +4,4 @@ import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
 
 @AddToEndSingle
-interface IMainView : MvpView {
-    fun showError(message: String)
-}
+interface IMainView : MvpView

@@ -29,4 +29,26 @@ class UsersCache : IUsersCache {
             )
         })
 
+    override fun putUser(user: GithubUser) {
+        val roomUser = user.let {
+            RoomGithubUser(
+                it.id,
+                it.login,
+                it.avatarUrl ?: "",
+                it.reposUrl ?: ""
+            )
+        }
+        AppDB.getInstance().userDAO.insert(roomUser)
+    }
+
+    override fun getUser(login: String): Single<GithubUser> =
+        Single.just(AppDB.getInstance().userDAO.getUser(login)?.let {
+            GithubUser(
+                it.id,
+                it.login,
+                it.avatarUrl ?: "",
+                it.reposUrl ?: ""
+            )
+        })
+
 }

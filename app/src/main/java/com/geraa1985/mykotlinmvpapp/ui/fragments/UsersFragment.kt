@@ -2,12 +2,13 @@ package com.geraa1985.mykotlinmvpapp.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geraa1985.mykotlinmvpapp.MyApp
+import com.geraa1985.mykotlinmvpapp.R
 import com.geraa1985.mykotlinmvpapp.databinding.FragmentUsersBinding
 import com.geraa1985.mykotlinmvpapp.mvp.model.api.ApiHolder
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.cache.UsersCache
@@ -46,6 +47,34 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
     ): View {
         binding = FragmentUsersBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val mainToolbar = binding.mainToolbar
+        val activity = activity as AppCompatActivity
+        activity.setSupportActionBar(mainToolbar)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.appbar_menu, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.queryHint = "Enter login"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchItem.collapseActionView()
+                presenter.searchUser(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun initRvUsers() {

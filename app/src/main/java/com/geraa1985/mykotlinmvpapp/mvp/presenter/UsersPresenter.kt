@@ -1,11 +1,13 @@
 package com.geraa1985.mykotlinmvpapp.mvp.presenter
 
+import com.geraa1985.mykotlinmvpapp.MyApp
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.GithubUser
 import com.geraa1985.mykotlinmvpapp.mvp.model.repository.IUsersRepo
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.list.user.IUserListPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IUsersView
 import com.geraa1985.mykotlinmvpapp.mvp.view.list.userItem.IUserItemView
 import com.geraa1985.mykotlinmvpapp.navigation.Screens
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
@@ -58,6 +60,19 @@ class UsersPresenter(
                 }
             })
         compositeDisposable.add(disposable1)
+    }
+
+    fun searchUser(login: String?) {
+        login?.let { userLogin ->
+            val disposable2 = usersRepo.getUser(userLogin)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ user ->
+                    MyApp.instance.router.navigateTo(Screens.userScreen(user))
+                }, { error ->
+                    error.message?.let { viewState.showError(it) }
+                })
+            compositeDisposable.add(disposable2)
+        }
     }
 
     fun backPressed(): Boolean {
