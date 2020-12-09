@@ -39,6 +39,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
     }
 
     private var adapter: UserRVAdapter? = null
+    private lateinit var searchItem: MenuItem
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,12 +61,11 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.appbar_menu, menu)
-        val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
+        searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
         searchView.queryHint = "Enter login"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchItem.collapseActionView()
                 presenter.searchUser(query)
                 return false
             }
@@ -95,5 +95,10 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
 
     override fun backPressed(): Boolean {
         return presenter.backPressed()
+    }
+
+    override fun onStop() {
+        searchItem.collapseActionView()
+        super.onStop()
     }
 }
