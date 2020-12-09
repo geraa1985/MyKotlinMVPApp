@@ -39,4 +39,7 @@ interface IUserDao {
     @Query("SELECT * FROM RoomGithubUser WHERE login = :login LIMIT 1")
     fun getUser(login: String): RoomGithubUser?
 
+    @Query("SELECT * FROM RoomGithubUser WHERE login LIKE '%' || :login  || '%'")
+    fun getUsersByLogin(login: String): List<RoomGithubUser>
+
 }

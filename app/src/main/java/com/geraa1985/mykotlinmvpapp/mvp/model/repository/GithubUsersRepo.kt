@@ -12,11 +12,11 @@ class GithubUsersRepo(
     private val networkStatus: INetworkStatus,
     private val usersCache: IUsersCache
 ) : IUsersRepo {
+
     override fun getUsers(): Single<List<GithubUser>> =
         networkStatus.isOnlineSingle().flatMap { isOnline ->
             if (isOnline) {
                 api.getUsers().flatMap { users ->
-                    usersCache.putUsers(users)
                     Single.just(users)
                 }
             } else {
@@ -28,11 +28,29 @@ class GithubUsersRepo(
         networkStatus.isOnlineSingle().flatMap { isOnline ->
             if (isOnline) {
                 api.getUser(login).flatMap { user ->
-                    usersCache.putUser(user)
                     Single.just(user)
                 }
             } else {
                 usersCache.getUser(login)
             }
         }.subscribeOn(Schedulers.io())
+
+    override fun searchUsers(login: String): Single<List<GithubUser>> =
+        networkStatus.isOnlineSingle().flatMap { isOnline ->
+            if (isOnline) {
+                api.searchUsers(login).flatMap { result ->
+                    Single.just(result.items)
+                }
+            } else {
+                usersCache.getUsersByLogin(login)
+            }
+        }.subscribeOn(Schedulers.io())
+
+    override fun putUser(user: GithubUser) {
+        networkStatus.isOnlineSingle().subscribe { isOnline ->
+            if (isOnline) {
+                usersCache.putUser(user)
+            }
+        }
+    }
 }

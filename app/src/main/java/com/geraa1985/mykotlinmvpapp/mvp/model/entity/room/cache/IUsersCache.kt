@@ -8,4 +8,5 @@ interface IUsersCache {
     fun getUsers(): Single<List<GithubUser>>
     fun putUser(user: GithubUser)
     fun getUser(login: String): Single<GithubUser>
+    fun getUsersByLogin(login: String): Single<List<GithubUser>>
 }

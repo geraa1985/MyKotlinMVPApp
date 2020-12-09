@@ -71,6 +71,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                presenter.searchUsers(newText)
                 return false
             }
         })

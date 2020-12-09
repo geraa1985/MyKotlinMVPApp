@@ -10,6 +10,8 @@ import com.geraa1985.mykotlinmvpapp.navigation.Screens
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.PublishSubject
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 
@@ -37,14 +39,21 @@ class UsersPresenter(
 
     val usersListPresenter = UsersListPresenter()
     private val compositeDisposable = CompositeDisposable()
+    private val subject: PublishSubject<GithubUser> = PublishSubject.create()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.initRvUsers()
         loadData()
 
+        subject.observeOn(Schedulers.io()).subscribe { gitHubUser ->
+            usersRepo.putUser(gitHubUser)
+        }
+
         usersListPresenter.itemClickListener = {
-            router.navigateTo(Screens.userScreen(usersListPresenter.users[it.pos]))
+            val user = usersListPresenter.users[it.pos]
+            subject.onNext(user)
+            router.navigateTo(Screens.userScreen(user))
         }
     }
 
@@ -72,6 +81,24 @@ class UsersPresenter(
                     error.message?.let { viewState.showError(it) }
                 })
             compositeDisposable.add(disposable2)
+        }
+    }
+
+    fun searchUsers(login: String?) {
+        login?.let { userLogin ->
+            if (userLogin.isNotEmpty()) {
+                val disposable3 =
+                    usersRepo.searchUsers(userLogin)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ users ->
+                            usersListPresenter.users.clear()
+                            usersListPresenter.users.addAll(users)
+                            viewState.updateUsersList()
+                        }, { error ->
+                            error.message?.let { viewState.showError(it) }
+                        })
+                compositeDisposable.add(disposable3)
+            }
         }
     }
 
