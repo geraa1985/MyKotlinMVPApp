@@ -66,6 +66,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
         searchView.queryHint = "Enter login"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                searchItem.collapseActionView()
                 presenter.searchUser(query)
                 return false
             }
