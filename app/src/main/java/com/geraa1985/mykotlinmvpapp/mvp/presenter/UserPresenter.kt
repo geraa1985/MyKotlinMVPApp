@@ -2,7 +2,7 @@ package com.geraa1985.mykotlinmvpapp.mvp.presenter
 
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.GithubUser
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.UserRepo
-import com.geraa1985.mykotlinmvpapp.mvp.model.repository.IUsersRepo
+import com.geraa1985.mykotlinmvpapp.mvp.model.repository.IReposRepo
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.list.repo.IRepoListPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IUserView
 import com.geraa1985.mykotlinmvpapp.mvp.view.list.repoItem.IRepoItemView
@@ -15,7 +15,7 @@ import ru.terrakok.cicerone.Router
 class UserPresenter(
     private val user: GithubUser?,
     private val uiScheduler: Scheduler,
-    private val usersRepo: IUsersRepo,
+    private val usersRepo: IReposRepo,
     private val router: Router
     ): MvpPresenter<IUserView>() {
 
@@ -63,7 +63,7 @@ class UserPresenter(
 
     private fun loadData() {
         user?.let {
-            val disposable1 = usersRepo.getRepos(user.reposUrl)
+            val disposable1 = usersRepo.getRepos(user)
                 .observeOn(uiScheduler)
                 .subscribe({
                     reposListPresenter.repos.addAll(it)
