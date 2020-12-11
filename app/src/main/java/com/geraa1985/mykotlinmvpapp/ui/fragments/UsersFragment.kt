@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.geraa1985.mykotlinmvpapp.MyApp
 import com.geraa1985.mykotlinmvpapp.R
 import com.geraa1985.mykotlinmvpapp.databinding.FragmentUsersBinding
 import com.geraa1985.mykotlinmvpapp.mvp.model.api.ApiHolder
@@ -33,8 +32,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
                 ApiHolder.api,
                 NetworkStatus(),
                 UsersCache()
-            ),
-            MyApp.instance.router
+            )
         )
     }
 

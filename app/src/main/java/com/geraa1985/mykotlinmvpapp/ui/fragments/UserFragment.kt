@@ -43,8 +43,7 @@ class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
         UserPresenter(
             user,
             AndroidSchedulers.mainThread(),
-            GithubReposRepo(ApiHolder.api, NetworkStatus(), ReposCache()),
-            MyApp.instance.router)
+            GithubReposRepo(ApiHolder.api, NetworkStatus(), ReposCache()))
     }
 
     override fun onCreateView(

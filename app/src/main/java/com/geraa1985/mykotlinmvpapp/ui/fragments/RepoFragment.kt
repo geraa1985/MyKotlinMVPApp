@@ -31,7 +31,7 @@ class RepoFragment : MvpAppCompatFragment(), IRepoView, BackButtonListener {
 
     private val presenter by moxyPresenter {
         val repo: UserRepo? = arguments?.getParcelable(REPO_KEY)
-        RepoPresenter(repo, MyApp.instance.router)
+        RepoPresenter(repo)
     }
 
     override fun onCreateView(

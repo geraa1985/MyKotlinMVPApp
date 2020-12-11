@@ -1,5 +1,6 @@
 package com.geraa1985.mykotlinmvpapp.mvp.presenter
 
+import com.geraa1985.mykotlinmvpapp.MyApp
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.GithubUser
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.UserRepo
 import com.geraa1985.mykotlinmvpapp.mvp.model.repository.IReposRepo
@@ -11,13 +12,20 @@ import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 class UserPresenter(
     private val user: GithubUser?,
     private val uiScheduler: Scheduler,
-    private val usersRepo: IReposRepo,
-    private val router: Router
+    private val usersRepo: IReposRepo
     ): MvpPresenter<IUserView>() {
+
+    @Inject
+    lateinit var router: Router
+
+    init {
+        MyApp.instance.appGraph.inject(this)
+    }
 
     class ReposListPresenter : IRepoListPresenter {
 

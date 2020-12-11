@@ -1,14 +1,22 @@
 package com.geraa1985.mykotlinmvpapp.mvp.presenter
 
+import com.geraa1985.mykotlinmvpapp.MyApp
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.UserRepo
 import com.geraa1985.mykotlinmvpapp.mvp.view.IRepoView
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 class RepoPresenter(
-    private val repo: UserRepo?,
-    private val router: Router
+    private val repo: UserRepo?
 ) : MvpPresenter<IRepoView>() {
+
+    @Inject
+    lateinit var router: Router
+
+    init {
+        MyApp.instance.appGraph.inject(this)
+    }
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

@@ -8,22 +8,28 @@ import com.geraa1985.mykotlinmvpapp.mvp.view.IMainView
 import com.geraa1985.mykotlinmvpapp.ui.BackButtonListener
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
+import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
+import javax.inject.Inject
 
 class MainActivity : MvpAppCompatActivity(), IMainView {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val navigatorHolder = MyApp.instance.navigatorHolder
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
+
     private val navigator by lazy {
         SupportAppNavigator(this, supportFragmentManager, binding.container.id)
     }
-    private val presenter by moxyPresenter { MainPresenter(MyApp.instance.router) }
+    private val presenter by moxyPresenter { MainPresenter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        MyApp.instance.appGraph.inject(this)
     }
 
     override fun onResumeFragments() {
