@@ -10,6 +10,8 @@ import com.geraa1985.mykotlinmvpapp.mvp.presenter.RepoPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.UserPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.UsersPresenter
 import com.geraa1985.mykotlinmvpapp.ui.activities.MainActivity
+import com.geraa1985.mykotlinmvpapp.ui.adapters.UserRVAdapter
+import com.geraa1985.mykotlinmvpapp.ui.fragments.UserFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -33,4 +35,6 @@ interface AppGraph {
     fun inject(githubReposRepo: GithubReposRepo)
     fun inject(usersCache: UsersCache)
     fun inject(reposCache: ReposCache)
+    fun inject(userRVAdapter: UserRVAdapter)
+    fun inject(userFragment: UserFragment)
 }

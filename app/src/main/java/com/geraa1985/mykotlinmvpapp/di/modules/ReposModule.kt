@@ -1,9 +1,9 @@
 package com.geraa1985.mykotlinmvpapp.di.modules
 
-import com.geraa1985.mykotlinmvpapp.mvp.model.repository.GithubReposRepo
-import com.geraa1985.mykotlinmvpapp.mvp.model.repository.GithubUsersRepo
-import com.geraa1985.mykotlinmvpapp.mvp.model.repository.IReposRepo
-import com.geraa1985.mykotlinmvpapp.mvp.model.repository.IUsersRepo
+import android.widget.ImageView
+import com.bumptech.glide.request.RequestOptions
+import com.geraa1985.mykotlinmvpapp.mvp.model.repository.*
+import com.geraa1985.mykotlinmvpapp.ui.image.GlideImgLoader
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -18,5 +18,9 @@ class ReposModule {
     @Singleton
     @Provides
     fun reposRepo(): IReposRepo = GithubReposRepo()
+
+    @Singleton
+    @Provides
+    fun imgRepo(): ILoadImage<ImageView, RequestOptions> = GlideImgLoader()
 
 }

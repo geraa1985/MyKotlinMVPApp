@@ -5,17 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.request.RequestOptions
+import com.geraa1985.mykotlinmvpapp.MyApp
 import com.geraa1985.mykotlinmvpapp.databinding.FragmentUserBinding
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.GithubUser
+import com.geraa1985.mykotlinmvpapp.mvp.model.repository.ILoadImage
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.UserPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IUserView
 import com.geraa1985.mykotlinmvpapp.ui.BackButtonListener
 import com.geraa1985.mykotlinmvpapp.ui.adapters.RepoRVAdapter
-import com.geraa1985.mykotlinmvpapp.ui.image.GlideImgLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
 
@@ -32,6 +36,9 @@ class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
     private lateinit var binding: FragmentUserBinding
     private var adapter: RepoRVAdapter? = null
 
+    @Inject
+    lateinit var imgLoader: ILoadImage<ImageView, RequestOptions>
+
     private val presenter by moxyPresenter {
         val user: GithubUser? = arguments?.getParcelable(USER_KEY)
         UserPresenter(user)
@@ -46,12 +53,17 @@ class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        MyApp.instance.appGraph.inject(this)
+    }
+
     override fun showLogin(login: String) {
         binding.toolbar.title = login
     }
 
     override fun showAvatar(url: String) {
-        GlideImgLoader().loadInto(url, binding.avatar, null)
+        imgLoader.loadInto(url, binding.avatar, null)
     }
 
     override fun initRvRepos() {

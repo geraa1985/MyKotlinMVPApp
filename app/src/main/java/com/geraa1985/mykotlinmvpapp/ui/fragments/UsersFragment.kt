@@ -13,7 +13,6 @@ import com.geraa1985.mykotlinmvpapp.mvp.presenter.UsersPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IUsersView
 import com.geraa1985.mykotlinmvpapp.ui.BackButtonListener
 import com.geraa1985.mykotlinmvpapp.ui.adapters.UserRVAdapter
-import com.geraa1985.mykotlinmvpapp.ui.image.GlideImgLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -68,7 +67,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
 
     override fun initRvUsers() {
         binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UserRVAdapter(presenter.usersListPresenter, GlideImgLoader())
+        adapter = UserRVAdapter(presenter.usersListPresenter)
         binding.rvUsers.adapter = adapter
     }
 
