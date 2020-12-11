@@ -16,14 +16,14 @@ import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
-class UsersPresenter(
-    private val uiScheduler: Scheduler,
-    private val usersRepo: IUsersRepo
-) :
-    MvpPresenter<IUsersView>() {
+class UsersPresenter: MvpPresenter<IUsersView>() {
 
     @Inject
     lateinit var router: Router
+    @Inject
+    lateinit var usersRepo: IUsersRepo
+    @Inject
+    lateinit var uiScheduler: Scheduler
 
     init {
         MyApp.instance.appGraph.inject(this)

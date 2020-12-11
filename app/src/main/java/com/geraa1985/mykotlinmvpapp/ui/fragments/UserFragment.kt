@@ -7,19 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.geraa1985.mykotlinmvpapp.MyApp
 import com.geraa1985.mykotlinmvpapp.databinding.FragmentUserBinding
-import com.geraa1985.mykotlinmvpapp.mvp.model.api.ApiHolder
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.GithubUser
-import com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.cache.ReposCache
-import com.geraa1985.mykotlinmvpapp.mvp.model.repository.GithubReposRepo
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.UserPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IUserView
 import com.geraa1985.mykotlinmvpapp.ui.BackButtonListener
 import com.geraa1985.mykotlinmvpapp.ui.adapters.RepoRVAdapter
 import com.geraa1985.mykotlinmvpapp.ui.image.GlideImgLoader
-import com.geraa1985.mykotlinmvpapp.ui.networkstatus.NetworkStatus
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -40,10 +34,7 @@ class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
 
     private val presenter by moxyPresenter {
         val user: GithubUser? = arguments?.getParcelable(USER_KEY)
-        UserPresenter(
-            user,
-            AndroidSchedulers.mainThread(),
-            GithubReposRepo(ApiHolder.api, NetworkStatus(), ReposCache()))
+        UserPresenter(user)
     }
 
     override fun onCreateView(

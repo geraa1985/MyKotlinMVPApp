@@ -1,17 +1,26 @@
 package com.geraa1985.mykotlinmvpapp.mvp.model.repository
 
+import com.geraa1985.mykotlinmvpapp.MyApp
 import com.geraa1985.mykotlinmvpapp.mvp.model.api.IGithubData
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.GithubUser
 import com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.cache.IUsersCache
 import com.geraa1985.mykotlinmvpapp.mvp.model.network.INetworkStatus
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
-class GithubUsersRepo(
-    private val api: IGithubData,
-    private val networkStatus: INetworkStatus,
-    private val usersCache: IUsersCache
-) : IUsersRepo {
+class GithubUsersRepo : IUsersRepo {
+
+    @Inject
+    lateinit var networkStatus: INetworkStatus
+    @Inject
+    lateinit var api: IGithubData
+    @Inject
+    lateinit var usersCache: IUsersCache
+
+    init {
+        MyApp.instance.appGraph.inject(this)
+    }
 
     override fun getUsers(): Single<List<GithubUser>> =
         networkStatus.isOnlineSingle().flatMap { isOnline ->

@@ -1,6 +1,10 @@
 package com.geraa1985.mykotlinmvpapp.di.components
 
-import com.geraa1985.mykotlinmvpapp.di.modules.CiceroneModule
+import com.geraa1985.mykotlinmvpapp.di.modules.*
+import com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.cache.ReposCache
+import com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.cache.UsersCache
+import com.geraa1985.mykotlinmvpapp.mvp.model.repository.GithubReposRepo
+import com.geraa1985.mykotlinmvpapp.mvp.model.repository.GithubUsersRepo
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.MainPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.RepoPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.UserPresenter
@@ -12,7 +16,11 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        CiceroneModule::class
+        CiceroneModule::class,
+        ReposModule::class,
+        NetworkModule::class,
+        CacheModule::class,
+        AppModule::class
     ]
 )
 interface AppGraph {
@@ -21,4 +29,8 @@ interface AppGraph {
     fun inject(usersPresenter: UsersPresenter)
     fun inject(userPresenter: UserPresenter)
     fun inject(repoPresenter: RepoPresenter)
+    fun inject(githubUsersRepo: GithubUsersRepo)
+    fun inject(githubReposRepo: GithubReposRepo)
+    fun inject(usersCache: UsersCache)
+    fun inject(reposCache: ReposCache)
 }
