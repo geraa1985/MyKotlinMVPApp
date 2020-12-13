@@ -7,15 +7,16 @@ import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
-class RepoPresenter(
-    private val repo: UserRepo?
-) : MvpPresenter<IRepoView>() {
+class RepoPresenter: MvpPresenter<IRepoView>() {
 
     @Inject
     lateinit var router: Router
 
+    private lateinit var repo: UserRepo
+
     init {
         MyApp.instance.appGraph.inject(this)
+        viewState.setRepo()
     }
 
     override fun onFirstViewAttach() {
@@ -30,32 +31,36 @@ class RepoPresenter(
         showLink()
     }
 
+    fun setRepo(repo: UserRepo?) {
+        repo?.let { this.repo = it }
+    }
+
     private fun showName() {
-        repo?.let { viewState.showName(it.name) }
+        repo.let { viewState.showName(it.name) }
     }
 
     private fun showLang() {
-        repo?.language?.let { viewState.showLang(it) }
+        repo.language?.let { viewState.showLang(it) }
     }
 
     private fun showCreateDate() {
-        repo?.createdAt?.let { viewState.showCreated(it) }
+        repo.createdAt?.let { viewState.showCreated(it) }
     }
 
     private fun showUpdateDate() {
-        repo?.updatedAt?.let { viewState.showUpdated(it) }
+        repo.updatedAt?.let { viewState.showUpdated(it) }
     }
 
     private fun showForks() {
-        repo?.forks?.let { viewState.showForks(it.toString()) }
+        repo.forks?.let { viewState.showForks(it.toString()) }
     }
 
     private fun showWatchers() {
-        repo?.watchers?.let { viewState.showWatchers(it.toString()) }
+        repo.watchers?.let { viewState.showWatchers(it.toString()) }
     }
 
     private fun showLink() {
-        repo?.htmlUrl?.let { viewState.showLink(it) }
+        repo.htmlUrl?.let { viewState.showLink(it) }
     }
 
     fun backPressed(): Boolean {

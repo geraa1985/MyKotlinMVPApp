@@ -11,7 +11,9 @@ import com.geraa1985.mykotlinmvpapp.mvp.presenter.UserPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.UsersPresenter
 import com.geraa1985.mykotlinmvpapp.ui.activities.MainActivity
 import com.geraa1985.mykotlinmvpapp.ui.adapters.UserRVAdapter
+import com.geraa1985.mykotlinmvpapp.ui.fragments.RepoFragment
 import com.geraa1985.mykotlinmvpapp.ui.fragments.UserFragment
+import com.geraa1985.mykotlinmvpapp.ui.fragments.UsersFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -22,7 +24,8 @@ import javax.inject.Singleton
         ReposModule::class,
         NetworkModule::class,
         CacheModule::class,
-        AppModule::class
+        AppModule::class,
+        PresentersModule::class
     ]
 )
 interface AppGraph {
@@ -37,4 +40,6 @@ interface AppGraph {
     fun inject(reposCache: ReposCache)
     fun inject(userRVAdapter: UserRVAdapter)
     fun inject(userFragment: UserFragment)
+    fun inject(usersFragment: UsersFragment)
+    fun inject(repoFragment: RepoFragment)
 }

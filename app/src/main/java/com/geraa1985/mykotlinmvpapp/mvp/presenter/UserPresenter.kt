@@ -14,9 +14,7 @@ import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
-class UserPresenter(
-    private val user: GithubUser?
-    ): MvpPresenter<IUserView>() {
+class UserPresenter: MvpPresenter<IUserView>() {
 
     @Inject
     lateinit var router: Router
@@ -25,8 +23,11 @@ class UserPresenter(
     @Inject
     lateinit var uiScheduler: Scheduler
 
+    private lateinit var user: GithubUser
+
     init {
         MyApp.instance.appGraph.inject(this)
+        viewState.setUser()
     }
 
     class ReposListPresenter : IRepoListPresenter {
@@ -59,20 +60,24 @@ class UserPresenter(
         }
     }
 
+    fun setUser(user: GithubUser?) {
+        user?.let { this.user = it }
+    }
+
     private fun showLogin() {
-        user?.let {
-            viewState.showLogin(it.login)
+        user.login.let {
+            viewState.showLogin(it)
         }
     }
 
     private fun showAvatar() {
-        user?.avatarUrl?.let {
+        user.avatarUrl?.let {
             viewState.showAvatar(it)
         }
     }
 
     private fun loadData() {
-        user?.let {
+        user.let {
             val disposable1 = reposRepo.getRepos(user)
                 .observeOn(uiScheduler)
                 .subscribe({

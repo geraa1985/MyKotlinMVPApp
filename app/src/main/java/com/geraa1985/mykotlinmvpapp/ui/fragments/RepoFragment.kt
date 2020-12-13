@@ -13,7 +13,7 @@ import com.geraa1985.mykotlinmvpapp.mvp.presenter.RepoPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IRepoView
 import com.geraa1985.mykotlinmvpapp.ui.BackButtonListener
 import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
 
 class RepoFragment : MvpAppCompatFragment(), IRepoView, BackButtonListener {
 
@@ -29,10 +29,8 @@ class RepoFragment : MvpAppCompatFragment(), IRepoView, BackButtonListener {
 
     private lateinit var binding: FragmentRepoBinding
 
-    private val presenter by moxyPresenter {
-        val repo: UserRepo? = arguments?.getParcelable(REPO_KEY)
-        RepoPresenter(repo)
-    }
+    @InjectPresenter
+    lateinit var presenter: RepoPresenter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,9 +41,19 @@ class RepoFragment : MvpAppCompatFragment(), IRepoView, BackButtonListener {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        MyApp.instance.appGraph.inject(this)
+    }
+
+    override fun setRepo() {
+        val repo: UserRepo? = arguments?.getParcelable(REPO_KEY)
+        presenter.setRepo(repo)
+    }
+
     override fun showName(name: String) {
         val content = SpannableString(name)
-        content.setSpan(UnderlineSpan(), 0 , content.length, 0)
+        content.setSpan(UnderlineSpan(), 0, content.length, 0)
         binding.repoName.text = content
     }
 

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.geraa1985.mykotlinmvpapp.MyApp
 import com.geraa1985.mykotlinmvpapp.R
 import com.geraa1985.mykotlinmvpapp.databinding.FragmentUsersBinding
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.UsersPresenter
@@ -14,15 +15,14 @@ import com.geraa1985.mykotlinmvpapp.mvp.view.IUsersView
 import com.geraa1985.mykotlinmvpapp.ui.BackButtonListener
 import com.geraa1985.mykotlinmvpapp.ui.adapters.UserRVAdapter
 import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
 
 class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
 
     private lateinit var binding: FragmentUsersBinding
 
-    private val presenter by moxyPresenter {
-        UsersPresenter()
-    }
+    @InjectPresenter
+    lateinit var presenter: UsersPresenter
 
     private var adapter: UserRVAdapter? = null
     private lateinit var searchItem: MenuItem
@@ -38,6 +38,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
 
     override fun onStart() {
         super.onStart()
+        MyApp.instance.appGraph.inject(this)
 
         val mainToolbar = binding.mainToolbar
         val activity = activity as AppCompatActivity

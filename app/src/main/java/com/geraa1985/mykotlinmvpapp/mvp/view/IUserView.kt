@@ -10,4 +10,5 @@ interface IUserView: MvpView {
     fun initRvRepos()
     fun updateReposList()
     fun showError(message: String)
+    fun setUser()
 }

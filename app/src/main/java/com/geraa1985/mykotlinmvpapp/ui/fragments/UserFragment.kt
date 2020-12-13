@@ -18,7 +18,7 @@ import com.geraa1985.mykotlinmvpapp.mvp.view.IUserView
 import com.geraa1985.mykotlinmvpapp.ui.BackButtonListener
 import com.geraa1985.mykotlinmvpapp.ui.adapters.RepoRVAdapter
 import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
 import javax.inject.Inject
 
 class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
@@ -39,10 +39,8 @@ class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
     @Inject
     lateinit var imgLoader: ILoadImage<ImageView, RequestOptions>
 
-    private val presenter by moxyPresenter {
-        val user: GithubUser? = arguments?.getParcelable(USER_KEY)
-        UserPresenter(user)
-    }
+    @InjectPresenter
+    lateinit var presenter: UserPresenter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,6 +54,11 @@ class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         MyApp.instance.appGraph.inject(this)
+    }
+
+    override fun setUser() {
+        val user: GithubUser? = arguments?.getParcelable(USER_KEY)
+        presenter.setUser(user)
     }
 
     override fun showLogin(login: String) {

@@ -13,5 +13,6 @@ interface IRepoView: MvpView {
     fun showForks(forks: String)
     fun showWatchers(watchers: String)
     fun showLink(url: String)
+    fun setRepo()
 
 }
