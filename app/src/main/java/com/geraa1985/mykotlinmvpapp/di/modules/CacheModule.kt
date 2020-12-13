@@ -11,14 +11,13 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-
 @Module
 class CacheModule {
 
     @Singleton
     @Provides
-    fun db(): AppDB = Room.databaseBuilder(
-        MyApp.instance.applicationContext,
+    fun db(app: MyApp): AppDB = Room.databaseBuilder(
+        app,
         AppDB::class.java,
         AppDB.NAME_DB
     ).build()

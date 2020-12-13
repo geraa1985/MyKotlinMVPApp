@@ -1,5 +1,6 @@
 package com.geraa1985.mykotlinmvpapp.di.modules
 
+import com.geraa1985.mykotlinmvpapp.MyApp
 import com.geraa1985.mykotlinmvpapp.mvp.model.api.IGithubData
 import com.geraa1985.mykotlinmvpapp.mvp.model.network.INetworkStatus
 import com.geraa1985.mykotlinmvpapp.ui.networkstatus.NetworkStatus
@@ -40,6 +41,6 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun networkStatus(): INetworkStatus = NetworkStatus()
+    fun networkStatus(app: MyApp): INetworkStatus = NetworkStatus(app)
 
 }
