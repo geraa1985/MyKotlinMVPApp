@@ -2,9 +2,10 @@ package com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.entities
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(
+@Entity(indices = [Index(value = ["id", "uid"], unique = true)],
     foreignKeys = [ForeignKey(
         entity = RoomGithubUser::class,
         parentColumns = ["id"],

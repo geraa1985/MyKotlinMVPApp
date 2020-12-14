@@ -10,33 +10,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.geraa1985.mykotlinmvpapp.MyApp
 import com.geraa1985.mykotlinmvpapp.R
 import com.geraa1985.mykotlinmvpapp.databinding.FragmentUsersBinding
-import com.geraa1985.mykotlinmvpapp.mvp.model.api.ApiHolder
-import com.geraa1985.mykotlinmvpapp.mvp.model.entity.room.cache.UsersCache
-import com.geraa1985.mykotlinmvpapp.mvp.model.repository.GithubUsersRepo
 import com.geraa1985.mykotlinmvpapp.mvp.presenter.UsersPresenter
 import com.geraa1985.mykotlinmvpapp.mvp.view.IUsersView
 import com.geraa1985.mykotlinmvpapp.ui.BackButtonListener
 import com.geraa1985.mykotlinmvpapp.ui.adapters.UserRVAdapter
-import com.geraa1985.mykotlinmvpapp.ui.image.GlideImgLoader
-import com.geraa1985.mykotlinmvpapp.ui.networkstatus.NetworkStatus
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
 
 class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
 
     private lateinit var binding: FragmentUsersBinding
 
-    private val presenter by moxyPresenter {
-        UsersPresenter(AndroidSchedulers.mainThread(),
-            GithubUsersRepo(
-                ApiHolder.api,
-                NetworkStatus(),
-                UsersCache()
-            ),
-            MyApp.instance.router
-        )
-    }
+    @InjectPresenter
+    lateinit var presenter: UsersPresenter
 
     private var adapter: UserRVAdapter? = null
     private lateinit var searchItem: MenuItem
@@ -52,6 +38,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
 
     override fun onStart() {
         super.onStart()
+        MyApp.instance.appGraph.inject(this)
 
         val mainToolbar = binding.mainToolbar
         val activity = activity as AppCompatActivity
@@ -66,6 +53,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
         searchView.queryHint = "Enter login"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                searchItem.collapseActionView()
                 presenter.searchUser(query)
                 return false
             }
@@ -80,7 +68,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, BackButtonListener {
 
     override fun initRvUsers() {
         binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UserRVAdapter(presenter.usersListPresenter, GlideImgLoader())
+        adapter = UserRVAdapter(presenter.usersListPresenter)
         binding.rvUsers.adapter = adapter
     }
 

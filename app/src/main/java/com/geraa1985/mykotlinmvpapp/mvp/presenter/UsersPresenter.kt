@@ -14,13 +14,20 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
-class UsersPresenter(
-    private val uiScheduler: Scheduler,
-    private val usersRepo: IUsersRepo,
-    private val router: Router
-) :
-    MvpPresenter<IUsersView>() {
+class UsersPresenter: MvpPresenter<IUsersView>() {
+
+    @Inject
+    lateinit var router: Router
+    @Inject
+    lateinit var usersRepo: IUsersRepo
+    @Inject
+    lateinit var uiScheduler: Scheduler
+
+    init {
+        MyApp.instance.appGraph.inject(this)
+    }
 
     class UsersListPresenter : IUserListPresenter {
 
@@ -76,7 +83,7 @@ class UsersPresenter(
             val disposable2 = usersRepo.getUser(userLogin)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ user ->
-                    MyApp.instance.router.navigateTo(Screens.userScreen(user))
+                    router.navigateTo(Screens.userScreen(user))
                 }, { error ->
                     error.message?.let { viewState.showError(it) }
                 })
